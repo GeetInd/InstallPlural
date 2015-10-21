@@ -1,43 +1,51 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary1
+namespace ClassLibrary2
 {
-    // This project can output the Class library as a NuGet Package.
-    // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
     public class Install
     {
-        public Install()
-        {
-        }
-        private string[] InputStringVal;
+        public string[,] InputStringVal { get; set; }
 
-
-        public string[] InputString
+        public bool VarifyDependency()
         {
-            set
+            if (InputStringVal != null)
+            {
+                int len = InputStringVal.Length;
+                for (int i = 0; i < len; i++)
                 {
-                InputStringVal = value;
+                    if (InputStringVal[i, 1].Trim() == "")
+                    {
+                        InstallPackages(InputStringVal[1, 0]);
+                    }
+                    else {
+                        for (int j = i+1; j < ((InputStringVal.Length)-i); j++)
+                        {
+                            if (InputStringVal[i, 1] == InputStringVal[j, 1])
+                            {
+                                InstallPackages(InputStringVal[j, 0]);
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
+            else
+                return false;
         }
-
-        public string[] OutputString
+        public void InstallPackages(string strPackageName)
         {
-            get;
-            private set;
-        }
-
-        public void InstallPackages()
-        {
-
-        }
-        private void VarifyDependency()
-        {
-            string[] output;
-            output = InputStringVal;
-            OutputString = output ;
+            try
+            {
+                //code to install package.
+            }
+            catch
+            { }
         }
     }
+
+   
 }
